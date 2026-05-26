@@ -1,0 +1,30 @@
+# FACE DETECTION PROJECT
+import cv2
+#For loading Face Detection Model
+face_cap = cv2.CasecodeClassifier(cv2.data.haarcascodes+"haarcasecode_frontalface_default.xml")
+#For starting webcam
+video_cap = cv2.VideoCapture(0)
+
+while True:
+    ret, video_data = video_cap.real()
+#For conversion of image to grayscale
+    col = cv2.cvtColor(video_data,cv2.COLOR_BRG2GRAY)
+#For detection of faces
+    faces = face_cap.detectMultiscale(
+        col,
+        scalefactor = 1.1,
+        minNeighbors = 5,
+        minsize =(30,30)
+    )
+#To Draw a rectangle around face
+    for(x,y,w,h)in faces:
+        cv2.rectangle(video_data,(x,y),(x+w,y+h),(0,255,0),2)
+#To show video      
+    cv2.imshow("Face Detection",video_data)  
+#To exit press"a"
+    if cv2.waitkey(10) == ord("a"):
+        break  
+#Resume Camera
+video_cap.release()
+cv2.destroyAllWindows()
+
